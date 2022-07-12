@@ -21,6 +21,10 @@ const SearchbarHeader = styled.header`
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 `;
 
+const Form = styled.form`
+  position: relative;
+  `
+
 const Input = styled.input`
   outline: none;
   height: 30px;
@@ -28,6 +32,28 @@ const Input = styled.input`
   border: 0;
   border-radius: 6px;
   padding-left: 10px;
+`;
+
+const SearchButton = styled.button`
+  display: block;
+  position: absolute;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
+  background-size: 40%;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.6;
+  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  outline: none;
+  :hover {
+    opacity: 1;
+  }
 `;
 
 export class Searchbar extends Component {
@@ -52,10 +78,8 @@ export class Searchbar extends Component {
   render() {
     return (
       <SearchbarHeader>
-        <form onSubmit={this.handleSubmit}>
-          <button type="submit">
-            <span>Search</span>
-          </button>
+        <Form onSubmit={this.handleSubmit}>
+          <SearchButton type="submit"></SearchButton>
 
           <Input
             type="text"
@@ -65,7 +89,7 @@ export class Searchbar extends Component {
             value={this.state.searchValue}
             onChange={this.handleChange}
           />
-        </form>
+        </Form>
       </SearchbarHeader>
     );
   }
