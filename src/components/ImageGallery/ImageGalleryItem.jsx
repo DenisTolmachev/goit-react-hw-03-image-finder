@@ -16,13 +16,12 @@ export class ImageGalleryItem extends Component {
 
   render() {
     const { item } = this.props;
-    console.log(item.id);
     return (
       <li>
         <img src={item.webformatURL} alt="" onClick={this.openModal} />
-        {this.state.isOpen && 
+        {this.state.isOpen && (
           <Modal onClick={this.onBackdropClose} modalImg={item.largeImageURL} />
-        }
+        )}
       </li>
     );
   }
