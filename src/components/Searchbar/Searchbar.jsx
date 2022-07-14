@@ -1,96 +1,29 @@
-import { Component } from 'react';
-import styled from 'styled-components';
-import Notiflix from 'notiflix';
+import { SearchbarHeader, SearchForm, SearchInput, SearchButton } from './Searchbarstyled';
+import { Formik } from 'formik';
 
-const SearchbarHeader = styled.header`
-  top: 0;
-  left: 0;
-  position: sticky;
-  z-index: 1100;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 60px;
-  padding-right: 24px;
-  padding-left: 24px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  color: #fff;
-  background-color: #3f51b5;
-  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
-    0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-`;
-
-const Form = styled.form`
-  position: relative;
-  `
-
-const Input = styled.input`
-  outline: none;
-  height: 30px;
-  width: 300px;
-  border: 0;
-  border-radius: 6px;
-  padding-left: 10px;
-`;
-
-const SearchButton = styled.button`
-  display: block;
-  position: absolute;
-  right: 0;
-  width: 30px;
-  height: 30px;
-  border: 0;
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
-  background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
-  background-size: 40%;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 0.6;
-  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  outline: none;
-  :hover {
-    opacity: 1;
-  }
-`;
-
-export class Searchbar extends Component {
-  state = {
-    searchValue: '',
-  };
-
-  handleChange = e => {
-    this.setState({ searchValue: e.currentTarget.value.toLowerCase() });
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    if (this.state.searchValue.trim() === '') {
-      Notiflix.Notify.failure('Please enter a search term');
-      return;
-    }
-    this.props.onSubmit(this.state.searchValue);
-    this.setState({ searchValue: '' });
-  };
-
-  render() {
-    return (
-      <SearchbarHeader>
-        <Form onSubmit={this.handleSubmit}>
-          <SearchButton type="submit"></SearchButton>
-
-          <Input
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            value={this.state.searchValue}
-            onChange={this.handleChange}
-          />
-        </Form>
-      </SearchbarHeader>
-    );
-  }
-}
+export const Searchbar = ({ onSubmit }) => {
+  return (
+    <SearchbarHeader>
+      <Formik initialValues={{ query: '' }}
+        onSubmit=
+        {values => {
+          onSubmit(values.query);
+        }}>
+        {props => (
+          <SearchForm>
+            <SearchButton type="submit"></SearchButton>
+            <SearchInput
+              type="text"
+              autoComplete="off"
+              autoFocus
+              name="query"
+              placeholder="Search images and photos"
+              value={props.values.query}
+              onChange={props.handleChange}
+            />
+          </SearchForm>
+        )}
+      </Formik>
+    </SearchbarHeader>
+  );
+};
