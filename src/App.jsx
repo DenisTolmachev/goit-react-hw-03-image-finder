@@ -2,8 +2,10 @@ import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { Component } from 'react';
 import { AppWrapper } from './components/commons/appWrapper.styled';
+import { Idle } from './components/Idle/Idle';
+import { UncorrectSearch} from './components/UncorrectSearch/UncorrectSearch' 
 import { LoadMoreBtn } from './components/commons/loadMoreBtn.styled';
-import { Circles } from 'react-loader-spinner';
+import { LoaderSpinner } from './components/commons/Loader/Loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as API from 'services/api';
@@ -54,14 +56,14 @@ export class App extends Component {
     return (
       <AppWrapper>
         <Searchbar onSubmit={this.handleFormSubmit} />
-        {status === 'idle' && <p>Searching...</p>}
+        {status === 'idle' && <Idle />}
         {status === 'loading' && (
-          <Circles color="#00BFFF" height={80} width={80} />
+          <LoaderSpinner />
         )}
         {status === 'resolved' && totalhits > 0 && (
           <ImageGallery options={hits} />
         )}
-        {totalhits === 0 && <p>No results found</p>}
+        {totalhits === 0 && <UncorrectSearch/>}
         {totalhits > 12 && page !== lastpage && (
           <LoadMoreBtn type="button" onClick={this.loadNextPage}>
             load more
