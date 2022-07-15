@@ -31,6 +31,7 @@ export const SearchInput = styled(Field)`
   border: 0;
   border-radius: 6px;
   padding-left: 10px;
+  font-size: 16px;
 `;
 
 export const SearchButton = styled.button`

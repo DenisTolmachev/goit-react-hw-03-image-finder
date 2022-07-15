@@ -1,5 +1,6 @@
 import { SearchbarHeader, SearchForm, SearchInput, SearchButton } from './Searchbarstyled';
 import { Formik } from 'formik';
+import { RiSearchLine } from "react-icons/ri";
 
 export const Searchbar = ({ onSubmit }) => {
   return (
@@ -11,7 +12,9 @@ export const Searchbar = ({ onSubmit }) => {
         }}>
         {props => (
           <SearchForm>
-            <SearchButton type="submit"></SearchButton>
+            <SearchButton type="submit">
+            <RiSearchLine />
+            </SearchButton>
             <SearchInput
               type="text"
               autoComplete="off"
