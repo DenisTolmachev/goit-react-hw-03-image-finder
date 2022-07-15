@@ -1,14 +1,12 @@
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { Component } from 'react';
-import { AppWrapper} from './components/commons/appWrapper.styled'
-import { LoadMoreBtn } from './components/commons/loadMoreBtn.styled'
-import { Circles } from  'react-loader-spinner'
+import { AppWrapper } from './components/commons/appWrapper.styled';
+import { LoadMoreBtn } from './components/commons/loadMoreBtn.styled';
+import { Circles } from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as API from 'services/api';
-
-
 
 export class App extends Component {
   state = {
@@ -29,7 +27,7 @@ export class App extends Component {
       API.fetchGallery(API.queryOptions).then(result => {
         this.setState(prevState => ({
           status: 'resolved',
-          hits: [...result.data.hits],
+          hits: [...prevState.hits, ...result.data.hits],
           totalhits: result.data.totalHits,
           lastpage: Math.ceil(result.data.totalHits / 12),
         }));
@@ -40,15 +38,7 @@ export class App extends Component {
 
   handleFormSubmit = searchValue => {
     if (searchValue.trim() === '') {
-      toast('🦄 Wow so easy!', {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.warn('Please enter a search term!');
     } else {
       this.setState({ searchValue });
     }
@@ -56,7 +46,6 @@ export class App extends Component {
 
   loadNextPage = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
-    console.log(this.state.page);
   };
 
   render() {
@@ -66,7 +55,9 @@ export class App extends Component {
       <AppWrapper>
         <Searchbar onSubmit={this.handleFormSubmit} />
         {status === 'idle' && <p>Searching...</p>}
-        {status === 'loading' && <Circles color="#00BFFF" height={80} width={80}/>}
+        {status === 'loading' && (
+          <Circles color="#00BFFF" height={80} width={80} />
+        )}
         {status === 'resolved' && totalhits > 0 && (
           <ImageGallery options={hits} />
         )}
@@ -78,7 +69,7 @@ export class App extends Component {
         )}
         <ToastContainer
           position="top-center"
-          autoClose={5000}
+          autoClose={2000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
