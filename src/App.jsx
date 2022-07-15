@@ -29,7 +29,7 @@ export class App extends Component {
       API.fetchGallery(API.queryOptions).then(result => {
         this.setState(prevState => ({
           status: 'resolved',
-          hits: [...prevState.hits, ...result.data.hits],
+          hits: [...result.data.hits],
           totalhits: result.data.totalHits,
           lastpage: Math.ceil(result.data.totalHits / 12),
         }));
