@@ -1,9 +1,13 @@
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { Component } from 'react';
+import { AppWrapper} from './components/commons/appWrapper.styled'
+import { LoadMoreBtn } from './components/commons/loadMoreBtn.styled'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as API from 'services/api';
+
+
 
 export class App extends Component {
   state = {
@@ -58,7 +62,7 @@ export class App extends Component {
     const { page, status, hits, totalhits, lastpage } = this.state;
 
     return (
-      <div>
+      <AppWrapper>
         <Searchbar onSubmit={this.handleFormSubmit} />
         {status === 'idle' && <p>Searching...</p>}
         {status === 'loading' && <p>Loading...</p>}
@@ -67,9 +71,9 @@ export class App extends Component {
         )}
         {totalhits === 0 && <p>No results found</p>}
         {totalhits > 12 && page !== lastpage && (
-          <button type="button" onClick={this.loadNextPage}>
+          <LoadMoreBtn type="button" onClick={this.loadNextPage}>
             load more
-          </button>
+          </LoadMoreBtn>
         )}
         <ToastContainer
           position="top-center"
@@ -82,7 +86,7 @@ export class App extends Component {
           draggable
           pauseOnHover
         />
-      </div>
+      </AppWrapper>
     );
   }
 }

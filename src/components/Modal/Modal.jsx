@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import {ModalBackdrop, ModalContainer} from './Modal.styled'
 
 export class Modal extends Component {
   componentDidMount() {
@@ -24,11 +25,11 @@ export class Modal extends Component {
   render() {
     const { onClick, modalImg } = this.props;
     return (
-      <div onClick={onClick}>
-        <div>
+      <ModalBackdrop onClick={onClick}>
+        <ModalContainer>
           <img src={modalImg} alt="" />
-        </div>
-      </div>
+        </ModalContainer>
+      </ModalBackdrop>
     );
   }
 }

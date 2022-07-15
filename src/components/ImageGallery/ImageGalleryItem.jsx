@@ -1,4 +1,8 @@
 import { Modal } from 'components/Modal/Modal';
+import {
+  ImageGalleryItemItem,
+  ImageGalleryItemImage,
+} from './ImageGalleryItem.styled';
 import { Component } from 'react';
 
 export class ImageGalleryItem extends Component {
@@ -17,12 +21,16 @@ export class ImageGalleryItem extends Component {
   render() {
     const { item } = this.props;
     return (
-      <li>
-        <img src={item.webformatURL} alt="" onClick={this.openModal} />
+      <ImageGalleryItemItem>
+        <ImageGalleryItemImage
+          src={item.webformatURL}
+          alt=""
+          onClick={this.openModal}
+        />
         {this.state.isOpen && (
           <Modal onClick={this.onBackdropClose} modalImg={item.largeImageURL} />
         )}
-      </li>
+      </ImageGalleryItemItem>
     );
   }
   s;
