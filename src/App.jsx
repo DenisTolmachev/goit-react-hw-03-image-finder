@@ -3,6 +3,7 @@ import { Searchbar } from 'components/Searchbar/Searchbar';
 import { Component } from 'react';
 import { AppWrapper} from './components/commons/appWrapper.styled'
 import { LoadMoreBtn } from './components/commons/loadMoreBtn.styled'
+import { Circles } from  'react-loader-spinner'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as API from 'services/api';
@@ -65,7 +66,7 @@ export class App extends Component {
       <AppWrapper>
         <Searchbar onSubmit={this.handleFormSubmit} />
         {status === 'idle' && <p>Searching...</p>}
-        {status === 'loading' && <p>Loading...</p>}
+        {status === 'loading' && <Circles color="#00BFFF" height={80} width={80}/>}
         {status === 'resolved' && totalhits > 0 && (
           <ImageGallery options={hits} />
         )}
