@@ -43,7 +43,6 @@ export const SearchButton = styled.button`
   border: 0; 
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
-  //background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
   background-size: 40%;
   background-repeat: no-repeat;
   background-position: center;
