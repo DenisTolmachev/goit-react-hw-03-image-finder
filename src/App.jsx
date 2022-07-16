@@ -21,19 +21,23 @@ export class App extends Component {
   };
 
   componentDidUpdate(_, prevState) {
-    const { searchValue, page } = this.state;
-    if (prevState.searchValue !== searchValue || prevState.page !== page) {
+    const { page } = this.state;
+    if (page !== 1 && prevState.page !== page) {
       this.setState({ status: 'loading' });
-      API.queryOptions.q = searchValue;
+      
       API.queryOptions.page = page;
       API.fetchGallery(API.queryOptions).then(result => {
         this.setState(prevState => ({
           status: 'resolved',
           hits: [...prevState.hits, ...result.data.hits],
-          totalhits: result.data.totalHits,
-          lastpage: Math.ceil(result.data.totalHits / 12),
         }));
-        console.log(result.data);
+      });
+    }
+
+    if (page > 2) {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
       });
     }
   }
@@ -42,7 +46,19 @@ export class App extends Component {
     if (searchValue.trim() === '') {
       toast.warn('Please enter a search term!');
     } else {
-      this.setState({ searchValue });
+      this.setState({ 
+        status: 'loading',
+        searchValue,
+        page: 1 });
+        API.queryOptions.q = searchValue;
+        API.fetchGallery(API.queryOptions).then(result => {
+          this.setState ({
+            status: 'resolved',
+            hits: [...result.data.hits],
+            totalhits: result.data.totalHits,
+            lastpage: Math.ceil(result.data.totalHits / 12),
+          });
+        });
     }
   };
 
