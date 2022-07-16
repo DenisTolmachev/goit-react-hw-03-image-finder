@@ -1,8 +1,6 @@
 import axios from 'axios';
-import Notiflix from 'notiflix';
-
-const BASE_URL = 'https://pixabay.com/api/';
-const API_KEY = '25512826-4fc03a8129b56e35440cc764c';
+import { BASE_URL, API_KEY } from '../components/constance/apiConst';
+import { toast } from 'react-toastify';
 
 export const queryOptions = {
   q: '',
@@ -19,7 +17,7 @@ export const fetchGallery = async options => {
       params: { ...options, key: API_KEY },
     });
     return result;
-  } catch {
-    Notiflix.Notify.failure('Sorry, its data error');
+  } catch (error) {
+    toast.error(`Something went wrong ${error}`);
   }
 };

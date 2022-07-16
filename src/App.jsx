@@ -1,11 +1,11 @@
 import { ImageGallery } from 'components/ImageGallery/ImageGallery';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { Component } from 'react';
-import { AppWrapper } from './components/commons/appWrapper.styled';
+import { AppWrapper } from './components/common/AppWrapper';
 import { Idle } from './components/Idle/Idle';
 import { UncorrectSearch} from './components/UncorrectSearch/UncorrectSearch' 
-import { LoadMoreBtn } from './components/commons/loadMoreBtn.styled';
-import { LoaderSpinner } from './components/commons/Loader/Loader';
+import { LoadMoreBtn } from './components/common/LoadMoreBtn';
+import { LoaderSpinner } from './components/common/Loader/Loader';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as API from 'services/api';
@@ -24,7 +24,6 @@ export class App extends Component {
     const { page } = this.state;
     if (page !== 1 && prevState.page !== page) {
       this.setState({ status: 'loading' });
-      
       API.queryOptions.page = page;
       API.fetchGallery(API.queryOptions).then(result => {
         this.setState(prevState => ({
@@ -79,7 +78,7 @@ export class App extends Component {
         {status === 'resolved' && totalhits > 0 && (
           <ImageGallery options={hits} />
         )}
-        {totalhits === 0 && <UncorrectSearch/>}
+        {totalhits === 0 && status === 'resolved' && <UncorrectSearch/>}
         {totalhits > 12 && page !== lastpage && (
           <LoadMoreBtn type="button" onClick={this.loadNextPage}>
             load more

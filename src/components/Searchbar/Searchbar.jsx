@@ -1,19 +1,25 @@
-import { SearchbarHeader, SearchForm, SearchInput, SearchButton } from './Searchbarstyled';
+import {
+  SearchbarHeader,
+  SearchForm,
+  SearchInput,
+  SearchButton,
+} from './Searchbarstyled';
 import { Formik } from 'formik';
-import { RiSearchLine } from "react-icons/ri";
+import { RiSearchLine } from 'react-icons/ri';
 
 export const Searchbar = ({ onSubmit }) => {
   return (
     <SearchbarHeader>
-      <Formik initialValues={{ query: '' }}
-        onSubmit=
-        {values => {
+      <Formik
+        initialValues={{ query: '' }}
+        onSubmit={values => {
           onSubmit(values.query);
-        }}>
+        }}
+      >
         {props => (
           <SearchForm>
             <SearchButton type="submit">
-            <RiSearchLine />
+              <RiSearchLine />
             </SearchButton>
             <SearchInput
               type="text"
