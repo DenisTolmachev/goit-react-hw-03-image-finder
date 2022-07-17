@@ -10,12 +10,8 @@ export class ImageGalleryItem extends Component {
     isOpen: false,
   };
 
-  onBackdropClose = () => {
-    this.setState({ isOpen: false });
-  };
-
-  openModal = () => {
-    this.setState({ isOpen: true });
+  toggleModal = () => {
+    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
   };
 
   render() {
@@ -25,13 +21,12 @@ export class ImageGalleryItem extends Component {
         <ImageGalleryItemImage
           src={item.webformatURL}
           alt=""
-          onClick={this.openModal}
+          onClick={this.toggleModal}
         />
         {this.state.isOpen && (
-          <Modal onClick={this.onBackdropClose} modalImg={item.largeImageURL} />
+          <Modal onClick={this.toggleModal} modalImg={item.largeImageURL} />
         )}
       </ImageGalleryItemItem>
     );
   }
-  s;
 }
