@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BASE_URL, API_KEY } from '../components/constance/apiConst';
+import { BASE_URL, API_KEY } from '../constants/apiConst';
 import { toast } from 'react-toastify';
 
 export const fetchGallery = async options => {
