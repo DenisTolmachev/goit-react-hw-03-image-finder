@@ -3,7 +3,7 @@ import { Searchbar } from 'components/Searchbar/Searchbar';
 import { Component } from 'react';
 import { AppWrapper } from './components/common/AppWrapper';
 import { Idle } from './components/Idle/Idle';
-import { UncorrectSearch} from './components/UncorrectSearch/UncorrectSearch' 
+import { UncorrectSearch } from './components/UncorrectSearch/UncorrectSearch';
 import { LoadMoreBtn } from './components/common/LoadMoreBtn';
 import { LoaderSpinner } from './components/common/Loader/Loader';
 import { ToastContainer, toast } from 'react-toastify';
@@ -21,11 +21,11 @@ export class App extends Component {
   };
 
   componentDidUpdate(_, prevState) {
-    const { page } = this.state;
+    const { page, searchValue } = this.state;
     if (page !== 1 && prevState.page !== page) {
       this.setState({ status: 'loading' });
-      API.queryOptions.page = page;
-      API.fetchGallery(API.queryOptions).then(result => {
+
+      API.fetchGallery({ page, q: searchValue }).then(result => {
         this.setState(prevState => ({
           status: 'resolved',
           hits: [...prevState.hits, ...result.data.hits],
@@ -45,19 +45,19 @@ export class App extends Component {
     if (searchValue.trim() === '') {
       toast.warn('Please enter a search term!');
     } else {
-      this.setState({ 
+      this.setState({
         status: 'loading',
         searchValue,
-        page: 1 });
-        API.queryOptions.q = searchValue;
-        API.fetchGallery(API.queryOptions).then(result => {
-          this.setState ({
-            status: 'resolved',
-            hits: [...result.data.hits],
-            totalhits: result.data.totalHits,
-            lastpage: Math.ceil(result.data.totalHits / 12),
-          });
+        page: 1,
+      });
+      API.fetchGallery({ q: searchValue, page: 1 }).then(result => {
+        this.setState({
+          status: 'resolved',
+          hits: [...result.data.hits],
+          totalhits: result.data.totalHits,
+          lastpage: Math.ceil(result.data.totalHits / 12),
         });
+      });
     }
   };
 
@@ -72,13 +72,11 @@ export class App extends Component {
       <AppWrapper>
         <Searchbar onSubmit={this.handleFormSubmit} />
         {status === 'idle' && <Idle />}
-        {status === 'loading' && (
-          <LoaderSpinner />
-        )}
+        {status === 'loading' && <LoaderSpinner />}
         {status === 'resolved' && totalhits > 0 && (
           <ImageGallery options={hits} />
         )}
-        {totalhits === 0 && status === 'resolved' && <UncorrectSearch/>}
+        {totalhits === 0 && status === 'resolved' && <UncorrectSearch />}
         {totalhits > 12 && page !== lastpage && (
           <LoadMoreBtn type="button" onClick={this.loadNextPage}>
             load more
