@@ -12,9 +12,11 @@ export const Searchbar = ({ onSubmit }) => {
     <SearchbarHeader>
       <Formik
         initialValues={{ query: '' }}
-        onSubmit={values => {
+        onSubmit={(values, actions) => {
           onSubmit(values.query);
+          actions.resetForm();
         }}
+        
       >
         {props => (
           <SearchForm>
