@@ -24,7 +24,6 @@ export class App extends Component {
     const { page, searchValue } = this.state;
     if (page !== 1 && prevState.page !== page) {
       this.setState({ status: 'loading' });
-
       API.fetchGallery({ page, q: searchValue }).then(result => {
         this.setState(prevState => ({
           status: 'resolved',
@@ -32,7 +31,6 @@ export class App extends Component {
         }));
       });
     }
-
     if (page > 2) {
       window.scrollTo({
         top: document.documentElement.scrollHeight,
@@ -53,7 +51,7 @@ export class App extends Component {
       API.fetchGallery({ q: searchValue, page: 1 }).then(result => {
         this.setState({
           status: 'resolved',
-          hits: [...result.data.hits],
+          hits: result.data.hits,
           totalhits: result.data.totalHits,
           lastpage: Math.ceil(result.data.totalHits / 12),
         });
